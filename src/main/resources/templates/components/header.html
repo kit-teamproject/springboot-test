@@ -31,18 +31,9 @@
     <!-- 모바일 메뉴 -->
     <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
         <a href="#" class="block text-sm font-medium text-gray-700 hover:text-blue-600">문서관리</a>
-        <a href="#" class="block text-sm font-medium text-gray-700 hover:text-blue-600">학습동아리 관리</a>
+        <a href="/v1/learning_club/" class="block text-sm font-medium text-gray-700 hover:text-blue-600">학습동아리 관리</a>
         <a href="#" class="block text-sm font-medium text-gray-700 hover:text-blue-600">직원 관리</a>
         <a href="#" class="block text-sm font-medium text-gray-700 hover:text-blue-600">부서업무방 관리</a>
         <a href="#" class="block text-sm font-medium text-gray-700 hover:text-blue-600">일정관리</a>
     </div>
 </header>
-
-<!-- 모바일 메뉴 토글 스크립트 -->
-<script>
-    const btn = document.getElementById('mobile-menu-button');
-    const menu = document.getElementById('mobile-menu');
-    btn.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
-    });
-</script>
