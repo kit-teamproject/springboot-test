@@ -13,8 +13,27 @@
 <!-- 헤더 -->
 <div th:insert="components/header :: header"></div>
 
+
 <!--내용-->
 <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- 검색창 -->
+    <div class="mb-6 flex justify-end">
+        <form th:action="@{/v1/learning_club/search}" method="get" class="flex flex-col sm:flex-row gap-2 sm:items-center">
+            <input
+                    type="text"
+                    name="query"
+                    placeholder="동아리 이름 검색"
+                    class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
+            <button
+                    type="submit"
+                    class="px-4 py-1.5 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600 transition"
+            >
+                검색
+            </button>
+        </form>
+    </div>
+
     <!-- 제목 + 등록 버튼 -->
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-gray-800">학습동아리 목록</h1>
@@ -23,6 +42,8 @@
             + 학습동아리 등록
         </a>
     </div>
+
+
 
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
