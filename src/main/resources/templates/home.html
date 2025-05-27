@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>지식관리시스템</title>
     <link rel="icon" href="/assets/main.ico">
-    <div th:insert="components/setup :: setup"></div>
+    <th:block th:insert="~{components/setup :: setup}"></th:block>
 </head>
 <body class="bg-gray-50">
 
 <!-- 헤더 -->
-<div th:insert="components/header :: header"></div>
+<header th:insert="~{components/header :: header}"></header>
 <h1>main</h1>
 <script src="/js/header.js"></script>
 </body>

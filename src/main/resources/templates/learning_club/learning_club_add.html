@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>학습동아리 등록</title>
     <link rel="icon" href="/assets/main.ico">
-    <div th:insert="components/setup :: setup"></div>
+    <th:block th:insert="~{components/setup :: setup}"></th:block>
 </head>
 <body>
 <!-- 헤더 -->
-<div th:insert="components/header :: header"></div>
+<header th:insert="~{components/header :: header}"></header>
 
 <main class="max-w-3xl mx-auto px-4 py-10">
     <h1 class="text-2xl font-bold text-gray-800 mb-8">학습동아리 등록</h1>
