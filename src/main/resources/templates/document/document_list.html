@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>문서 관리</title>
+    <link rel="icon" href="/assets/main.ico">
+    <th:block th:insert="~{components/setup :: setup}"></th:block>
+</head>
+<body>
+<!-- 헤더 -->
+<header th:insert="~{components/header :: header}"></header>
+
+
+<!------내용------>
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- 제목  -->
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">규정 및 지침</h1>
+    </div>
+
+    <!-- 가로 정렬을 위한 flex 컨테이너 -->
+    <div class="flex gap-4 items-end w-full">
+        <!-- 부서 선택 드롭다운 (20%) -->
+        <div class="w-[20%]">
+            <label for="department" class="block text-sm font-medium text-gray-700 mb-2">검색 유형</label>
+            <div class="border border-gray-300 rounded-md shadow-sm p-2 bg-white">
+                <select
+                        id="department"
+                        class="block w-full focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none"
+                >
+                    <option value="department">부서</option>
+                    <option value="title">제목</option>
+                    <option value="category">카테고리</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 검색창 (50%) -->
+        <div class="w-[57%]">
+            <!-- <label class="block text-sm font-medium text-gray-700 mb-2">검색창</label> -->
+            <div class="relative border border-gray-300 rounded-md shadow-sm p-2 bg-white">
+                <input
+                        type="text"
+                        placeholder="검색어를 입력하세요"
+                        class="block w-full outline-none"
+                />
+            </div>
+        </div>
+
+        <!-- 검색 버튼 (15%) -->
+        <div class="w-[10%]">
+            <label class="block text-sm font-medium text-gray-700 mb-2 invisible">검색</label>
+            <button
+                    class="w-full bg-gray-600 text-white rounded-md py-2 text-sm font-medium hover:bg-gray-700 transition"
+            >
+                검색
+            </button>
+        </div>
+
+        <!-- 문서 등록 버튼 (15%) -->
+        <div class="w-[13%]">
+            <label class="block text-sm font-medium text-gray-700 mb-2 invisible">등록</label>
+            <a
+                    href="/document/add"
+                    class="block w-full bg-blue-600 text-white rounded-md py-2 text-sm font-medium text-center hover:bg-blue-700 transition"
+            >
+                + 문서 등록
+            </a>
+
+        </div>
+    </div>
+    <!--문서 목록 테이블 -->
+    <div class="overflow-x-auto mt-6">
+        <table class="min-w-full bg-white border border-gray-200">
+            <thead class="border border-gray-200">
+            <tr class="bg-gray-50">
+                <th class="px-4 py-2 border border-gray-200 text-left text-sm font-medium text-gray-600">번호</th>
+                <th class="px-4 py-2 border border-gray-200 text-left text-sm font-medium text-gray-600">문서 제목</th>
+                <th class="px-4 py-2 border border-gray-200 text-left text-sm font-medium text-gray-600">부서</th>
+                <th class="px-4 py-2 border border-gray-200 text-left text-sm font-medium text-gray-600">등록일</th>
+                <th class="px-4 py-2 border border-gray-200 text-left text-sm font-medium text-gray-600">카테고리</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 문서 목록 데이터 -->
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border-b">1</td>
+                <td class="px-4 py-2 border-b">2024년 기획재정부 면접평가 계획</td>
+                <td class="px-4 py-2 border-b">정책기획관</td>
+                <td class="px-4 py-2 border-b">2023-10-01</td>
+                <td class="px-4 py-2 border-b">경영, 인사</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border-b">2</td>
+                <td class="px-4 py-2 border-b">기획재정부 연말정산 정책</td>
+                <td class="px-4 py-2 border-b">재정관리관</td>
+                <td class="px-4 py-2 border-b">2023-10-02</td>
+                <td class="px-4 py-2 border-b">재정, 정책</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border-b">3</td>
+                <td class="px-4 py-2 border-b">종합정책과 에너지 절약 정책</td>
+                <td class="px-4 py-2 border-b">종합정책과</td>
+                <td class="px-4 py-2 border-b">2023-10-03</td>
+                <td class="px-4 py-2 border-b">에너지, 정책, 자원</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border-b">4</td>
+                <td class="px-4 py-2 border-b">기획재정부 예산 편성 기준</td>
+                <td class="px-4 py-2 border-b">예산관리관</td>
+                <td class="px-4 py-2 border-b">2023-10-04</td>
+                <td class="px-4 py-2 border-b">예산, 정책</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border-b">5</td>
+                <td class="px-4 py-2 border-b">기획재정부 세금 정책</td>
+                <td class="px-4 py-2 border-b">세정관리관</td>
+                <td class="px-4 py-2 border-b">2023-10-05</td>
+                <td class="px-4 py-2 border-b">세금, 정책</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border-b">6</td>
+                <td class="px-4 py-2 border-b">민생 규제 혁신 방안</td>
+                <td class="px-4 py-2 border-b">규제개혁법무담당관</td>
+                <td class="px-4 py-2 border-b">2023-10-06</td>
+                <td class="px-4 py-2 border-b">민생, 규제, 혁신</td>
+
+
+        </table>
+    </div>
+    <!-- 페이지네이션 -->
+    <div class="flex justify-center mt-6">
+        <nav class="inline-flex rounded-md shadow-sm" aria-label="Pagination">
+            <a href="#"
+               class="px-3 py-2 border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50">이전</a>
+            <a href="#"
+               class="px-3 py-2 border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50">1</a>
+            <a href="#"
+               class="px-3 py-2 border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50">2</a>
+            <a href="#"
+               class="px-3 py-2 border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50">3</a>
+            <a href="#"
+               class="px-3 py-2 border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50">다음</a>
+        </nav>
+    </div>
+</main>
+<script src="/js/header.js"></script>
+</body>
+</html>
