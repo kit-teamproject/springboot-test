@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>추진업무 등록</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50">
+    <!-- 헤더 -->
+    <header class="w-full border-b border-gray-200 bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex h-16 items-center justify-between">
+            <!-- 로고 -->
+            <div class="text-xl font-bold text-gray-800">DocuPlatform</div>
+  
+            <!-- 데스크탑 메뉴 -->
+            <nav
+              class="hidden md:flex space-x-6 text-sm font-medium text-gray-700"
+            >
+              <a href="#" class="hover:text-blue-600 transition-colors"
+                >문서관리</a
+              >
+              <a href="#" class="hover:text-blue-600 transition-colors"
+                >학습동아리 관리</a
+              >
+              <a href="#" class="hover:text-blue-600 transition-colors"
+                >직원 관리</a
+              >
+              <a href="#" class="hover:text-blue-600 transition-colors"
+                >부서업무방 관리</a
+              >
+              <a href="#" class="hover:text-blue-600 transition-colors"
+                >일정관리</a
+              >
+            </nav>
+  
+            <!-- 모바일 햄버거 버튼 -->
+            <div class="md:hidden">
+              <button
+                id="mobile-menu-button"
+                class="text-gray-700 focus:outline-none"
+              >
+                <svg
+                  class="h-6 w-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+  
+        <!-- 모바일 메뉴 -->
+        <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
+          <a
+            href="#"
+            class="block text-sm font-medium text-gray-700 hover:text-blue-600"
+            >문서관리</a
+          >
+          <a
+            href="#"
+            class="block text-sm font-medium text-gray-700 hover:text-blue-600"
+            >학습동아리 관리</a
+          >
+          <a
+            href="#"
+            class="block text-sm font-medium text-gray-700 hover:text-blue-600"
+            >직원 관리</a
+          >
+          <a
+            href="#"
+            class="block text-sm font-medium text-gray-700 hover:text-blue-600"
+            >부서업무방 관리</a
+          >
+          <a
+            href="#"
+            class="block text-sm font-medium text-gray-700 hover:text-blue-600"
+            >일정관리</a
+          >
+        </div>
+      </header>  
+
+    <!-- 메인 -->
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <h1 class="text-2xl font-bold text-gray-800 mb-6">추진업무 등록</h1>
+
+      <form class="bg-white shadow rounded-xl p-6 space-y-6">
+        <!-- 업무명 -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">업무명</label>
+          <input type="text" name="workName" class="mt-1 w-full border rounded-md px-3 py-2 text-sm" placeholder="예: 2025 상반기 문서 개선 프로젝트" />
+        </div>
+
+        <!-- 시작일/종료일 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">시작일</label>
+            <input type="date" name="startDate" class="mt-1 w-full border rounded-md px-3 py-2 text-sm" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">종료일</label>
+            <input type="date" name="endDate" class="mt-1 w-full border rounded-md px-3 py-2 text-sm" />
+          </div>
+        </div>
+
+        <!-- 공개 여부 -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">공개 여부</label>
+            <select
+            name="isPublic"
+            id="isPublicSelect"
+            class="mt-1 w-full border rounded-md px-3 py-2 text-sm"
+            >
+            <option value="true">공개</option>
+            <option value="false" selected>비공개</option>
+            </select>
+        </div>
+        
+        <!-- 공개 기간 (초기엔 숨김) -->
+        <div id="publicPeriodSection" class="hidden">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">공개 시작일</label>
+                <input
+                type="date"
+                name="openStartDate"
+                class="mt-1 w-full border rounded-md px-3 py-2 text-sm"
+                />
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">공개 종료일</label>
+                <input
+                type="date"
+                name="openEndDate"
+                class="mt-1 w-full border rounded-md px-3 py-2 text-sm"
+                />
+            </div>
+            </div>
+        </div>
+        
+        <!-- 공개 여부 선택 시 동작 -->
+        <script>
+            const isPublicSelect = document.getElementById("isPublicSelect");
+            const publicPeriodSection = document.getElementById("publicPeriodSection");
+        
+            isPublicSelect.addEventListener("change", () => {
+            if (isPublicSelect.value === "true") {
+                publicPeriodSection.classList.remove("hidden");
+            } else {
+                publicPeriodSection.classList.add("hidden");
+            }
+            });
+        </script>  
+
+        <!-- 담당자 (콤보박스) -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">추진업무 담당자</label>
+          <select name="workManager" class="mt-1 w-full border rounded-md px-3 py-2 text-sm">
+            <option value="">담당자를 선택하세요</option>
+            <option value="emp01">홍길동</option>
+            <option value="emp02">김철수</option>
+            <!-- 실제 구현 시 JS로 동적으로 부서 기반 목록 구성 -->
+          </select>
+        </div>
+
+        <!-- 단위업무 -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">단위업무</label>
+            <input
+            type="text"
+            name="linkedUnitWork"
+            class="mt-1 w-full border rounded-md px-3 py-2 text-sm"
+            placeholder="예: 기초문서 수집"
+            />
+        </div>
+        
+        <!-- 알람 설정 -->
+        <div class="flex items-center space-x-2">
+            <input
+            type="checkbox"
+            name="alarmSetting"
+            id="alarmSetting"
+            class="h-4 w-4 text-blue-600 border-gray-300 rounded"
+            />
+            <label for="alarmSetting" class="text-sm text-gray-700">알람 설정</label>
+        </div>
+        
+        <!-- 관련 자료 첨부 -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">관련 자료 업로드</label>
+            <input
+            type="file"
+            name="attachment"
+            class="mt-1 block w-full text-sm text-gray-600"
+            />
+        </div>
+  
+        <!-- 범주 -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">업무 범주</label>
+          <input type="text" name="category" class="mt-1 w-full border rounded-md px-3 py-2 text-sm" />
+        </div>
+
+        <!-- 등록 버튼 -->
+        <div class="pt-4">
+          <button
+            type="submit"
+            class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
+          >
+            업무 등록
+          </button>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
