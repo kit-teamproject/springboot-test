@@ -26,11 +26,12 @@
 
     <!-- 검색창 -->
     <div class="mb-6">
-        <form method="get" class="flex flex-col gap-2 sm:flex-row sm:gap-4">
+        <form method="get" action="/learning_club/list" class="flex flex-col gap-2 sm:flex-row sm:gap-4">
             <input
                     type="text"
                     name="query"
                     placeholder="동아리 이름 검색"
+                    th:value="${query}"
                     class="px-2 py-1.5 border border-gray-300 rounded-lg text-sm w-full focus:outline-none focus:ring-2 focus:ring-green-500"
             />
             <button
@@ -40,36 +41,21 @@
                 검색
             </button>
         </form>
+
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- 더미 동아리 1 -->
-        <div class="bg-white rounded-2xl shadow p-4 hover:shadow-md transition">
-            <img src="/assets/image.webp" alt="Club Image"
+        <div th:each="club : ${list}" class="bg-white rounded-2xl shadow p-4 hover:shadow-md transition">
+            <img th:src="${club.img_url}" alt="Club Image"
                  class="w-full h-48 object-cover rounded-xl mb-4"/>
-            <h2 class="text-lg font-semibold text-gray-900">프론트엔드 스터디</h2>
-            <p class="text-sm text-gray-600 mt-1">React와 Tailwind로 모던한 UI 개발을 학습합니다.</p>
-            <p class="text-xs text-gray-400 mt-2">생성자: user01</p>
-        </div>
 
-        <!-- 더미 동아리 2 -->
-        <div class="bg-white rounded-2xl shadow p-4 hover:shadow-md transition">
-            <img src="/assets/image.webp" alt="Club Image"
-                 class="w-full h-48 object-cover rounded-xl mb-4"/>
-            <h2 class="text-lg font-semibold text-gray-900">알고리즘 동아리</h2>
-            <p class="text-sm text-gray-600 mt-1">백준, 프로그래머스 문제를 함께 풀고 토론합니다.</p>
-            <p class="text-xs text-gray-400 mt-2">생성자: user99</p>
-        </div>
-
-        <!-- 더미 동아리 3 -->
-        <div class="bg-white rounded-2xl shadow p-4 hover:shadow-md transition">
-            <img src="/assets/image.webp" alt="Club Image"
-                 class="w-full h-48 object-cover rounded-xl mb-4"/>
-            <h2 class="text-lg font-semibold text-gray-900">기획/PM 동아리</h2>
-            <p class="text-sm text-gray-600 mt-1">기획서 작성과 협업 도구에 대해 공부하는 모임입니다.</p>
-            <p class="text-xs text-gray-400 mt-2">생성자: pmlee</p>
+            <h2 class="text-lg font-semibold text-gray-900" th:text="${club.clubName}">동아리명</h2>
+            <p class="text-sm text-gray-600 mt-1" th:text="${club.intro}">동아리 소개</p>
+            <p class="text-xs text-gray-400 mt-2" th:text="'생성자: ' + ${club.employeeDto.userid}">생성자</p>
         </div>
     </div>
+
+
 </main>
 <script src="/js/header.js"></script>
 </body>
