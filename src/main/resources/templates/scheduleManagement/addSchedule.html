@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>일정 등록</title>
+    <link rel="icon" href="/assets/main.ico">
+    <th:block th:insert="~{components/setup :: setup}"></th:block>
+</head>
+<body>
+<!-- 헤더 -->
+<header th:insert="~{components/header :: header}"></header>
+<main class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <form class="bg-white rounded-2xl shadow p-8 w-full max-w-2xl space-y-6 mt-12">
+        <h1 class="text-2xl font-bold text-gray-800 text-center">일정 등록</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- 일정 제목 -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">일정 제목</label>
+                <input
+                        type="text"
+                        name="scheduleName"
+                        placeholder="예: 프로젝트 일정 공유"
+                        class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm"
+                />
+            </div>
+
+            <!-- 공유 여부 -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">공유 여부</label>
+                <select
+                        name="isShare"
+                        class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm"
+                >
+                    <option value="false">공유 안 함</option>
+                    <option value="true">공유 함</option>
+                </select>
+            </div>
+
+            <!-- 시작일 -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">시작일</label>
+                <input
+                        type="date"
+                        name="startDate"
+                        class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm"
+                />
+            </div>
+
+            <!-- 종료일 -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">종료일</label>
+                <input
+                        type="date"
+                        name="endDate"
+                        class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm"
+                />
+            </div>
+
+            <!-- 공유 대상자 ID -->
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700"
+                >공유 대상자 ID (콤마 구분)</label
+                >
+                <input
+                        type="text"
+                        name="viewableEmployeeIds"
+                        placeholder="예: 1002,1003"
+                        class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm"
+                />
+            </div>
+
+            <!-- 기간 -->
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">기간</label>
+                <input
+                        type="number"
+                        name="dateLength"
+                        placeholder="자동 계산 또는 직접 입력"
+                        class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm"
+                />
+            </div>
+        </div>
+
+        <!-- 등록 버튼 -->
+        <div class="text-center pt-4">
+            <button
+                    type="submit"
+                    class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+                일정 등록
+            </button>
+        </div>
+    </form>
+</main>
+<script src="/js/header.js"></script>
+</body>
+</html>
