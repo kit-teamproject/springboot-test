@@ -10,8 +10,9 @@
 <body>
 <!-- 헤더 -->
 <header th:insert="~{components/header :: header}"></header>
+
 <main class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-    <form class="bg-white rounded-2xl shadow p-8 w-full max-w-2xl space-y-6 mt-12">
+    <form method="post" action="/schedule/add" class="bg-white rounded-2xl shadow p-8 w-full max-w-2xl space-y-6 mt-12">
         <h1 class="text-2xl font-bold text-gray-800 text-center">일정 등록</h1>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -23,6 +24,7 @@
                         name="scheduleName"
                         placeholder="예: 프로젝트 일정 공유"
                         class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm"
+                        required
                 />
             </div>
 
@@ -30,7 +32,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700">공유 여부</label>
                 <select
-                        name="isShare"
+                        name="shareYn"
                         class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm"
                 >
                     <option value="false">공유 안 함</option>
@@ -45,6 +47,7 @@
                         type="date"
                         name="startDate"
                         class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm"
+                        required
                 />
             </div>
 
@@ -55,29 +58,17 @@
                         type="date"
                         name="endDate"
                         class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm"
+                        required
                 />
             </div>
 
             <!-- 공유 대상자 ID -->
             <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700"
-                >공유 대상자 ID (콤마 구분)</label
-                >
+                <label class="block text-sm font-medium text-gray-700">공유 대상자 ID (콤마 구분)</label>
                 <input
                         type="text"
                         name="viewableEmployeeIds"
                         placeholder="예: 1002,1003"
-                        class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm"
-                />
-            </div>
-
-            <!-- 기간 -->
-            <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700">기간</label>
-                <input
-                        type="number"
-                        name="dateLength"
-                        placeholder="자동 계산 또는 직접 입력"
                         class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm"
                 />
             </div>
@@ -94,6 +85,7 @@
         </div>
     </form>
 </main>
+
 <script src="/js/header.js"></script>
 </body>
 </html>
