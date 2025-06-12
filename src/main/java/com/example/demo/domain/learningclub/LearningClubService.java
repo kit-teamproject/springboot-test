@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class LearningClubService {
+public class  LearningClubService {
     private final LearningClubRepository learningClubRepository;
     private final EmployeeRepository employeeRepository; // 생성자 정보 가져올 때 사용
 
