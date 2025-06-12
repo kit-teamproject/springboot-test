@@ -1,73 +1,70 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>직원 정보 조회 - 지식관리시스템</title>
     <link rel="stylesheet" href="/css/employeeInfo.css">
     <link rel="icon" href="/assets/main.ico">
     <th:block th:insert="~{components/setup :: setup}"></th:block>
 </head>
 <body>
-<!-- 헤더 -->
 <header th:insert="~{components/header :: header}"></header>
 
-    <div class="container">
-        <!-- 제목 + 등록 버튼 -->
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">직원정보 조회</h1>
-            <a href="/employee/add"
-               class="inline-block px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition">
-                + 직원등록
-            </a>
-        </div>
-
-<!--        <h1>직원 정보 조회</h1>-->
-        <p class="description">검색하고자 하는 직원의 ID를 입력하거나, 전체 직원 목록을 확인하세요.</p>
-
-        <div class="search-wrapper">
-            <input type="text" placeholder="직원 ID 입력" />
-        </div>
-
-        <button class="button" onclick="showTable()">전체 직원 정보 보기</button>
-
-        <div id="employeeTable" class="hidden">
-            <table>
-                <thead>
-                    <tr>
-                        <th>아이디</th>
-                        <th>비밀번호</th>
-                        <th>전화번호</th>
-                        <th>이름</th>
-                        <th>주소</th>
-                        <th>역할</th>
-                        <th>부서</th>
-                        <th>SMS 수신여부</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>emp001</td>
-                        <td>********</td>
-                        <td>010-1234-5678</td>
-                        <td>홍길동</td>
-                        <td>서울특별시</td>
-                        <td>관리자</td>
-                        <td>총무부</td>
-                        <td class="sms-o">O</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<div class="container">
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">직원정보 조회</h1>
+        <a href="/employee/add" class="inline-block px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition">
+            + 직원등록
+        </a>
     </div>
 
-    <script>
-        function showTable() {
-            document.getElementById("employeeTable").classList.remove("hidden");
-        }
-    </script>
+    <p class="description">직원 ID를 입력하면 해당 직원 정보를, 전체 조회 버튼을 누르면 모든 직원 정보를 볼 수 있습니다.</p>
+
+    <!-- 직원 ID 검색 폼 -->
+    <form th:action="@{/employee/list}" method="get" class="search-wrapper" style="display: flex; gap: 10px; align-items: center;">
+        <input type="text" name="userid" placeholder="직원 ID 입력 (예: hong123)" />
+        <button type="submit" style="background: none; border: none; font-size: 18px; cursor: pointer;">🔍</button>
+    </form>
+
+    <!-- 전체 조회 버튼 -->
+    <div style="margin-top: 20px;">
+        <form th:action="@{/employee/list}" method="get">
+            <input type="hidden" name="userid" value="">
+            <button type="submit" class="button">전체 직원 정보 보기</button>
+        </form>
+    </div>
+
+    <!-- 직원 테이블 -->
+    <div th:if="${employees != null}" style="margin-top: 20px;">
+        <table>
+            <thead>
+            <tr>
+                <th>아이디</th>
+                <th>비밀번호</th>
+                <th>전화번호</th>
+                <th>이름</th>
+                <th>주소</th>
+                <th>역할</th>
+                <th>부서</th>
+                <th>SMS 수신여부</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="emp : ${employees}">
+                <td th:text="${emp.userid}">아이디</td>
+                <td>********</td>
+                <td th:text="${emp.phone}">전화번호</td>
+                <td th:text="${emp.name}">이름</td>
+                <td th:text="${emp.address}">주소</td>
+                <td th:text="${emp.role}">역할</td>
+                <td th:text="${emp.department}">부서</td>
+                <td th:text="${emp.sms_receive ? 'O' : 'X'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <script src="/js/header.js"></script>
 </body>
-
 </html>
