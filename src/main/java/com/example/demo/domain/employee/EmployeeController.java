@@ -1,13 +1,12 @@
 package com.example.demo.domain.employee;
 
-import com.example.demo.domain.employee.dto.ReqEmployeeForm;
-import com.example.demo.domain.employee.dto.ResEmployeeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -17,25 +16,29 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping("/list")
-    public String index(@RequestParam(value = "userid", required = false) String userid, Model model) {
-        List<ResEmployeeDto> list = (userid != null && !userid.isBlank())
-                ? employeeService.findByUserid(userid).map(List::of).orElse(List.of())
-                : employeeService.getAll();
+    public String list(@RequestParam(required = false) String userid, Model model) {
+        List<EmployeeEntity> employees;
 
-        model.addAttribute("employees", list);
-        model.addAttribute("keyword", userid);
+        if (userid != null && !userid.isBlank()) {
+            Optional<EmployeeEntity> result = employeeService.findByUserid(userid);
+            employees = result.map(List::of).orElse(List.of());
+        } else {
+            employees = employeeService.getAllEmployees();
+        }
+
+        model.addAttribute("employees", employees);
         return "employeeManagement/EmployeeInfoView";
     }
 
     @GetMapping("/add")
-    public String add(Model model) {
-        model.addAttribute("ReqEmployeeForm", new ReqEmployeeForm());
+    public String addForm(Model model) {
+        model.addAttribute("employee", new EmployeeEntity());
         return "employeeManagement/EmployeeRegisterView";
     }
 
     @PostMapping("/add")
-    public String addSubmit(@ModelAttribute ReqEmployeeForm form) {
-        employeeService.register(form);
+    public String addSubmit(@ModelAttribute("employee") EmployeeEntity employee) {
+        employeeService.save(employee);
         return "redirect:/employee/list";
     }
 }
