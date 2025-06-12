@@ -3,8 +3,10 @@ package com.example.demo.domain.employee.dto;
 import com.example.demo.domain.employee.EmployeeEntity;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Builder
 public class ResEmployeeDto {
     private Long employee_id;
@@ -16,7 +18,7 @@ public class ResEmployeeDto {
     private String department;
     private Boolean sms_receive;
 
-    public static ResEmployeeDto fromEntity(EmployeeEntity e) {
+    public static ResEmployeeDto employeeEntityToDto(EmployeeEntity e) {
         return ResEmployeeDto.builder()
                 .employee_id(e.getEmployee_id())
                 .userid(e.getUserid())
