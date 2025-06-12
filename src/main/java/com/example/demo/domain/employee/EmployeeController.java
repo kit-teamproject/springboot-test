@@ -1,5 +1,7 @@
 package com.example.demo.domain.employee;
 
+import com.example.demo.domain.employee.dto.ReqEmployeeForm;
+import com.example.demo.domain.employee.dto.ResEmployeeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +19,11 @@ public class EmployeeController {
 
     @GetMapping("/list")
     public String list(@RequestParam(required = false) String userid, Model model) {
-        List<EmployeeEntity> employees;
+        List<ResEmployeeDto> employees;
 
         if (userid != null && !userid.isBlank()) {
-            Optional<EmployeeEntity> result = employeeService.findByUserid(userid);
-            employees = result.map(List::of).orElse(List.of());
+            ResEmployeeDto result = employeeService.findByUserid(userid);
+            employees = result != null ? List.of(result) : List.of();
         } else {
             employees = employeeService.getAllEmployees();
         }
@@ -32,13 +34,13 @@ public class EmployeeController {
 
     @GetMapping("/add")
     public String addForm(Model model) {
-        model.addAttribute("employee", new EmployeeEntity());
+        model.addAttribute("employee", new ReqEmployeeForm());
         return "employeeManagement/EmployeeRegisterView";
     }
 
     @PostMapping("/add")
-    public String addSubmit(@ModelAttribute("employee") EmployeeEntity employee) {
-        employeeService.save(employee);
+    public String addSubmit(@ModelAttribute("employee") ReqEmployeeForm reqEmployeeForm) {
+        employeeService.save(reqEmployeeForm);
         return "redirect:/employee/list";
     }
 }
