@@ -27,12 +27,12 @@
     </form>
 
     <!-- 전체 조회 버튼 -->
-    <div style="margin-top: 20px;">
-        <form th:action="@{/employee/list}" method="get">
-            <input type="hidden" name="userid" value="">
-            <button type="submit" class="button">전체 직원 정보 보기</button>
-        </form>
-    </div>
+<!--    <div style="margin-top: 20px;">-->
+<!--        <form th:action="@{/employee/list}" method="get">-->
+<!--            <input type="hidden" name="userid" value="">-->
+<!--            <button type="submit" class="button">전체 직원 정보 보기</button>-->
+<!--        </form>-->
+<!--    </div>-->
 
     <!-- 직원 테이블 -->
     <div th:if="${employees != null}" style="margin-top: 20px;">
@@ -40,7 +40,7 @@
             <thead>
             <tr>
                 <th>아이디</th>
-                <th>비밀번호</th>
+<!--                <th>비밀번호</th>-->
                 <th>전화번호</th>
                 <th>이름</th>
                 <th>주소</th>
@@ -52,7 +52,7 @@
             <tbody>
             <tr th:each="emp : ${employees}">
                 <td th:text="${emp.userid}">아이디</td>
-                <td>********</td>
+<!--                <td>********</td>-->
                 <td th:text="${emp.phone}">전화번호</td>
                 <td th:text="${emp.name}">이름</td>
                 <td th:text="${emp.address}">주소</td>
