@@ -36,34 +36,34 @@
 <!--    </div>-->
 
     <!-- 직원 테이블 -->
-    <div th:if="${employees != null}" style="margin-top: 20px;">
-        <table>
+    <!-- wrapper div: 모바일 대응 -->
+    <div th:if="${employees != null}" style="margin-top: 20px; overflow-x: auto;">
+        <table style="border-collapse: collapse; width: max-content; min-width: 100%;">
             <thead>
             <tr>
-                <th>아이디</th>
-<!--                <th>비밀번호</th>-->
-                <th>전화번호</th>
-                <th>이름</th>
-                <th>주소</th>
-                <th>역할</th>
-                <th>부서</th>
-                <th>SMS 수신여부</th>
+                <th style="padding: 8px; border: 1px solid #ccc;">아이디</th>
+                <th style="padding: 8px; border: 1px solid #ccc;">전화번호</th>
+                <th style="padding: 8px; border: 1px solid #ccc;">이름</th>
+                <th style="padding: 8px; border: 1px solid #ccc;">주소</th>
+                <th style="padding: 8px; border: 1px solid #ccc;">역할</th>
+                <th style="padding: 8px; border: 1px solid #ccc;">부서</th>
+                <th style="padding: 8px; border: 1px solid #ccc;">SMS 수신여부</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="emp : ${employees}">
-                <td th:text="${emp.userid}">아이디</td>
-<!--                <td>********</td>-->
-                <td th:text="${emp.phone}">전화번호</td>
-                <td th:text="${emp.name}">이름</td>
-                <td th:text="${emp.address}">주소</td>
-                <td th:text="${emp.role}">역할</td>
-                <td th:text="${emp.department}">부서</td>
-                <td th:text="${emp.sms_receive ? 'O' : 'X'}"></td>
+                <td style="white-space: nowrap; padding: 8px; border: 1px solid #eee;" th:text="${emp.userid}">아이디</td>
+                <td style="white-space: nowrap; padding: 8px; border: 1px solid #eee;" th:text="${emp.phone}">전화번호</td>
+                <td style="padding: 8px; border: 1px solid #eee;" th:text="${emp.name}">이름</td>
+                <td style="padding: 8px; border: 1px solid #eee;" th:text="${emp.address}">주소</td>
+                <td style="padding: 8px; border: 1px solid #eee;" th:text="${emp.role}">역할</td>
+                <td style="padding: 8px; border: 1px solid #eee;" th:text="${emp.department}">부서</td>
+                <td style="text-align: center; padding: 8px; border: 1px solid #eee;" th:text="${emp.sms_receive ? 'O' : 'X'}">수신여부</td>
             </tr>
             </tbody>
         </table>
     </div>
+
 </div>
 
 <script src="/js/header.js"></script>
