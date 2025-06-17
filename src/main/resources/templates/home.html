@@ -1,17 +1,76 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>지식관리시스템</title>
     <link rel="icon" href="/assets/main.ico">
     <th:block th:insert="~{components/setup :: setup}"></th:block>
+    <style>
+        input[type="radio"] {
+            display: none;
+        }
+
+        /* 선택된 라디오에만 초록색 배경 + 원 이동 */
+        input[type="radio"]:checked + .track {
+            background-color: #22c55e; /* Tailwind green-500 */
+        }
+
+        input[type="radio"]:checked + .track .thumb {
+            transform: translateX(24px); /* 6 x 4px */
+        }
+    </style>
 </head>
 <body class="bg-gray-50">
 
 <!-- 헤더 -->
 <header th:insert="~{components/header :: header}"></header>
-<h1>main</h1>
+
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-3" th:each="employee : ${employees}">
+        <label class="flex items-center cursor-pointer">
+            <input type="radio"
+                   name="employeeToggle"
+                   th:attr="data-userid=${employee.userid}">
+            <div class="track w-14 h-8 bg-gray-300 rounded-full relative transition-colors duration-300">
+                <div class="thumb absolute top-1 left-1 w-6 h-6 bg-white rounded-full transition-all duration-300"
+                     style="transition: transform 0.3s;"></div>
+            </div>
+            <span class="ml-3 text-sm text-gray-700" th:text="${employee.name}">직원 이름</span>
+            <span class="ml-3 text-sm text-gray-700" th:text="${employee.userid}">직원 아이디</span>
+            <span class="ml-3 text-sm text-gray-700" th:text="${employee.role}">직원 역할</span>
+        </label>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const radios = document.querySelectorAll('input[type="radio"][name="employeeToggle"]');
+        const savedUserId = sessionStorage.getItem('userid');
+        let matched = false;
+
+        radios.forEach(radio => {
+            if (savedUserId && radio.dataset.userid === savedUserId) {
+                radio.checked = true;
+                matched = true;
+            }
+        });
+
+        if (!matched && radios.length > 0) {
+            radios[0].checked = true;
+            sessionStorage.setItem('userid', radios[0].dataset.userid);
+        }
+
+        radios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                if (radio.checked) {
+                    sessionStorage.setItem('userid', radio.dataset.userid);
+                }
+            });
+        });
+    });
+</script>
+
 <script src="/js/header.js"></script>
 </body>
 </html>
