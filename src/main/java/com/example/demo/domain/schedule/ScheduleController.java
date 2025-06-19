@@ -70,8 +70,8 @@ public class ScheduleController {
      */
     @PostMapping("/add")
     public String addSchedule(@ModelAttribute ReqScheduleForm form) {
-        // 작성자 ID는 임시로 고정 (로그인 연동 시 교체 예정)
-        Long writerId = 1L; // 예: 임시 직원 ID
+        // 작성자 ID는 임시로 고정 -> (로그인 연동 시 교체 예정) : 세션스토리지에서 받아옴
+        Long writerId = form.getEmp_id(); // 예: 임시 직원 ID
 
         // 서비스 호출하여 일정 등록
         scheduleService.createSchedule(form, writerId);

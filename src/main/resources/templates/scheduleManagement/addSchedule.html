@@ -72,6 +72,14 @@
                         class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm"
                 />
             </div>
+<!--            사용자데이터-->
+            <input type="hidden" id="emp_id" name="emp_id">
+            <input type="hidden" id="emp_userid" name="emp_userid">
+
+            <script>
+                document.getElementById("emp_id").value=sessionStorage.getItem("id")
+                document.getElementById("emp_userid").value=sessionStorage.getItem("userid")
+            </script>
         </div>
 
         <!-- 등록 버튼 -->
