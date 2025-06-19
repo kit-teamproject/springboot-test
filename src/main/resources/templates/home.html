@@ -31,7 +31,7 @@
         <label class="flex items-center cursor-pointer">
             <input type="radio"
                    name="employeeToggle"
-                   th:attr="data-userid=${employee.userid}">
+                   th:attr="data-userid=${employee.userid}, data-id=${employee.employee_id}">
             <div class="track w-14 h-8 bg-gray-300 rounded-full relative transition-colors duration-300">
                 <div class="thumb absolute top-1 left-1 w-6 h-6 bg-white rounded-full transition-all duration-300"
                      style="transition: transform 0.3s;"></div>
@@ -56,20 +56,24 @@
             }
         });
 
+        // 기본 선택 없을 때 첫 번째 체크 + sessionStorage 저장
         if (!matched && radios.length > 0) {
             radios[0].checked = true;
             sessionStorage.setItem('userid', radios[0].dataset.userid);
+            sessionStorage.setItem('id', radios[0].dataset.id);
         }
 
         radios.forEach(radio => {
             radio.addEventListener('change', () => {
                 if (radio.checked) {
                     sessionStorage.setItem('userid', radio.dataset.userid);
+                    sessionStorage.setItem('id', radio.dataset.id);
                 }
             });
         });
     });
 </script>
+
 
 <script src="/js/header.js"></script>
 </body>

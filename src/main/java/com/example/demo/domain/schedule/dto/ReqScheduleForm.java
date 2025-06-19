@@ -21,4 +21,9 @@ public class ReqScheduleForm {
     private Integer importance; // 중요도 (1~5)
 
     private String sendSmsYn; // "true"/"false" 문자열로 넘어올 가능성 → Boolean 변환 가능
+
+
+    //사용자 데이터 받기
+    private Long emp_id;
+    private String emp_userid;
 }
