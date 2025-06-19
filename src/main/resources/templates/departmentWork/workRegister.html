@@ -12,7 +12,7 @@
 <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <h1 class="text-2xl font-bold text-gray-800 mb-6">추진업무 등록</h1>
 
-    <form th:action="@{/department/add}" method="post" enctype="multipart/form-data"
+    <form th:action="@{/departmentWork/add}" method="post" enctype="multipart/form-data"
           class="bg-white shadow rounded-xl p-6 space-y-6">
 
         <!-- 업무명 -->
@@ -20,6 +20,17 @@
             <label class="block text-sm font-medium text-gray-700">업무명</label>
             <input type="text" name="workName" class="mt-1 w-full border rounded-md px-3 py-2 text-sm"
                    placeholder="예: 2025 상반기 문서 개선 프로젝트"/>
+        </div>
+
+        <!-- 부서 선택 -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">부서</label>
+            <select name="departmentId" class="mt-1 w-full border rounded-md px-3 py-2 text-sm">
+                <option value="">부서 선택</option>
+                <option th:each="dept : ${departments}" 
+                        th:value="${dept.id}" 
+                        th:text="${dept.name}"></option>
+            </select>
         </div>
 
         <!-- 시작일/종료일 -->
@@ -37,10 +48,16 @@
         <!-- 공개 여부 -->
         <div>
             <label class="block text-sm font-medium text-gray-700">공개 여부</label>
-            <select name="isPublic" id="isPublicSelect" class="mt-1 w-full border rounded-md px-3 py-2 text-sm">
-                <option value="true">공개</option>
-                <option value="false" selected>비공개</option>
-            </select>
+            <div class="flex items-center space-x-4 mt-1">
+                <label class="inline-flex items-center">
+                    <input type="radio" name="isPublic" value="true" class="form-radio text-blue-600" checked id="publicTrue">
+                    <span class="ml-2 text-sm text-gray-700">공개</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="isPublic" value="false" class="form-radio text-blue-600" id="publicFalse">
+                    <span class="ml-2 text-sm text-gray-700">비공개</span>
+                </label>
+            </div>
         </div>
 
         <!-- 공개 기간 -->
@@ -60,25 +77,33 @@
         </div>
 
         <script>
-            const isPublicSelect = document.getElementById("isPublicSelect");
+            const publicTrue = document.getElementById("publicTrue");
+            const publicFalse = document.getElementById("publicFalse");
             const publicPeriodSection = document.getElementById("publicPeriodSection");
-            isPublicSelect.addEventListener("change", () => {
-                if (isPublicSelect.value === "true") {
+
+            function togglePublicSection() {
+                if (publicTrue.checked) {
                     publicPeriodSection.classList.remove("hidden");
                 } else {
                     publicPeriodSection.classList.add("hidden");
                 }
-            });
+            }
+
+            publicTrue.addEventListener("change", togglePublicSection);
+            publicFalse.addEventListener("change", togglePublicSection);
+
+            // 초기 상태에서도 반영
+            document.addEventListener("DOMContentLoaded", togglePublicSection);
         </script>
 
         <!-- 담당자 -->
         <div>
             <label class="block text-sm font-medium text-gray-700">추진업무 담당자</label>
-            <select name="managerId" class="mt-1 w-full border rounded-md px-3 py-2 text-sm">
+            <select name="workManager" class="mt-1 w-full border rounded-md px-3 py-2 text-sm">
                 <option value="">담당자를 선택하세요</option>
                 <option th:each="emp : ${employees}"
-                        th:value="${emp.employeeId}"
-                        th:text="${emp.name}"></option>
+                        th:value="${emp.name}"
+                th:text="${emp.name}"></option>
             </select>
         </div>
 
@@ -92,8 +117,9 @@
 
         <!-- 알람 -->
         <div class="flex items-center space-x-2">
-            <input type="checkbox" name="alarmSetting" id="alarmSetting"
-                   class="h-4 w-4 text-blue-600 border-gray-300 rounded"/>
+            <input type="hidden" name="alarmSetting" value="false"/>
+            <input type="checkbox" id="alarmSetting" name="alarmSetting" value="true"
+                class="h-4 w-4 text-blue-600 border-gray-300 rounded"/>
             <label for="alarmSetting" class="text-sm text-gray-700">알람 설정</label>
         </div>
 

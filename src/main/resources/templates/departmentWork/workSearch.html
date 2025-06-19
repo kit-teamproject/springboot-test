@@ -13,14 +13,14 @@
 
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-gray-800">추진업무 조회</h1>
-        <a href="/department/add"
+        <a th:href="@{/departmentWork/add}"
            class="inline-block px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition">
             + 업무등록
         </a>
     </div>
 
     <!-- 검색조건 -->
-    <form th:action="@{/department/search}" method="get"
+    <form th:action="@{/departmentWork/list}" method="get"
           class="bg-white shadow rounded-xl p-6 space-y-6 mb-8">
 
         <!-- 업무명 -->
@@ -36,9 +36,9 @@
             <label class="block text-sm font-medium text-gray-700">추진업무 담당자</label>
             <select name="workManager" class="mt-1 w-full border rounded-md px-3 py-2 text-sm">
                 <option value="">전체</option>
-                <option th:each="emp : ${employees}"
-                        th:value="${emp.employeeId}"
-                        th:text="${emp.name}"></option>
+                <th:block th:each="emp : ${employees}">
+                    <option th:value="${emp.name}" th:text="${emp.name}"></option>
+                </th:block>
             </select>
         </div>
 
@@ -71,7 +71,7 @@
             <h2 class="text-lg font-semibold text-gray-900" th:text="${work.workName}">업무명</h2>
             <p class="text-sm text-gray-600 mt-1">
                 <span class="font-medium">기간:</span>
-                <span th:text="${work.startDate} + ' ~ ' + ${work.endDate}"></span>
+                <span th:text="${#temporals.format(work.startDate, 'yyyy-MM-dd')} + ' ~ ' + ${#temporals.format(work.endDate, 'yyyy-MM-dd')}"></span>
             </p>
             <p class="text-sm text-gray-600 mt-1">
                 <span class="font-medium">담당자:</span>
@@ -79,7 +79,7 @@
             </p>
             <p class="text-sm text-gray-600 mt-1">
                 <span class="font-medium">공개여부:</span>
-                <span th:text="${work.isPublic} ? '공개' : '비공개'"></span>
+                <span th:text="(${work.isPublic}) ? '공개' : '비공개'"></span>
             </p>
             <p class="text-sm text-gray-600 mt-1">
                 <span class="font-medium">범주:</span>
