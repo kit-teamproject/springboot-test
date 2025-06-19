@@ -25,8 +25,9 @@ public class ResDocumentDto {
 
     public static ResDocumentDto documentEntityToDto(DocumentEntity documentEntity) {
         String formatted = documentEntity.getWrite_at()
-                .atZone(ZoneId.of("Asia/Seoul"))
+                .plusHours(9)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
 
         return ResDocumentDto.builder()
                 .id(documentEntity.getId())
