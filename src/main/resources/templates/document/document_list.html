@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -8,11 +8,11 @@
     <th:block th:insert="~{components/setup :: setup}"></th:block>
 </head>
 <body>
+
 <!-- 헤더 -->
 <header th:insert="~{components/header :: header}"></header>
 
-
-<!------내용------>
+<!-- 내용 -->
 <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- 제목 + 등록 버튼 -->
     <div class="flex items-center justify-between mb-6">
@@ -22,49 +22,37 @@
             + 문서 등록
         </a>
     </div>
-    <!-- 반응형 Flex 컨테이너 -->
-    <div class="flex flex-col gap-4 w-full md:flex-row md:items-end">
 
-        <!-- 검색 유형 드롭다운 -->
+    <form th:action="@{/document/list}" method="get" class="flex flex-col gap-4 w-full md:flex-row md:items-end">
+        <!-- 검색 유형 -->
         <div class="w-full md:w-1/5">
-            <label for="department" class="block text-sm font-medium text-gray-700 mb-2">검색 유형</label>
-            <div class="border border-gray-300 rounded-md shadow-sm px-2 py-1.5 bg-white">
-                <select
-                        id="department"
-                        class="block w-full focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none"
-                >
-                    <option value="department">부서</option>
-                    <option value="title">제목</option>
-                    <option value="category">카테고리</option>
-                </select>
-            </div>
+            <label for="type" class="block text-sm font-medium text-gray-700 mb-2">검색 유형</label>
+            <select id="type" name="type"
+                    class="block w-full border border-gray-300 rounded-md shadow-sm px-2 py-1.5 bg-white focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none">
+                <option th:value="department" th:selected="${searchType == 'department'}">부서</option>
+                <option th:value="title" th:selected="${searchType == 'title'}">제목</option>
+                <option th:value="category" th:selected="${searchType == 'category'}">카테고리</option>
+            </select>
         </div>
 
-        <!-- 검색어 입력창 -->
+        <!-- 검색어 -->
         <div class="w-full md:flex-1">
             <label class="block text-sm font-medium text-gray-700 mb-2 md:invisible">검색어</label>
-            <div class="relative border border-gray-300 rounded-md shadow-sm px-2 py-1.5 bg-white">
-                <input
-                        type="text"
-                        placeholder="검색어를 입력하세요"
-                        class="block w-full outline-none"
-                />
-            </div>
+            <input type="text" name="keyword" placeholder="검색어를 입력하세요"
+                   th:value="${searchKeyword}"
+                   class="block w-full border border-gray-300 rounded-md shadow-sm px-2 py-1.5 bg-white outline-none focus:border-blue-500 focus:ring focus:ring-blue-200"/>
         </div>
 
         <!-- 검색 버튼 -->
         <div class="w-full md:w-[120px]">
-            <label class="block text-sm font-medium text-gray-700 mb-2 invisible">검색</label>
-            <button
-                    class="w-full bg-gray-600 text-white rounded-md py-2 text-sm font-medium hover:bg-gray-700 transition"
-            >
+            <button type="submit"
+                    class="w-full bg-gray-600 text-white rounded-md py-2 text-sm font-medium hover:bg-gray-700 transition">
                 검색
             </button>
         </div>
+    </form>
 
-    </div>
-
-    <!--문서 목록 테이블 -->
+    <!-- 문서 목록 테이블 -->
     <div class="overflow-x-auto mt-6">
         <table class="min-w-full bg-white border border-gray-200 text-sm text-gray-800">
             <thead class="bg-gray-50">
@@ -74,71 +62,40 @@
                 <th class="px-4 py-2 border border-gray-200 text-left font-medium whitespace-nowrap">부서</th>
                 <th class="px-4 py-2 border border-gray-200 text-left font-medium whitespace-nowrap">등록일</th>
                 <th class="px-4 py-2 border border-gray-200 text-left font-medium whitespace-nowrap">카테고리</th>
+                <th class="px-4 py-2 border border-gray-200 text-left font-medium whitespace-nowrap">파일</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="hover:bg-gray-50">
-                <td class="px-4 py-2 border-b whitespace-nowrap">1</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">2024년 기획재정부 면접평가 계획</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">정책기획관</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">2023-10-01</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">경영, 인사</td>
-            </tr>
-            <tr class="hover:bg-gray-50">
-                <td class="px-4 py-2 border-b whitespace-nowrap">2</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">기획재정부 연말정산 정책</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">재정관리관</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">2023-10-02</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">재정, 정책</td>
-            </tr>
-            <tr class="hover:bg-gray-50">
-                <td class="px-4 py-2 border-b whitespace-nowrap">3</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">종합정책과 에너지 절약 정책</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">종합정책과</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">2023-10-03</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">에너지, 정책, 자원</td>
-            </tr>
-            <tr class="hover:bg-gray-50">
-                <td class="px-4 py-2 border-b whitespace-nowrap">4</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">기획재정부 예산 편성 기준</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">예산관리관</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">2023-10-04</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">예산, 정책</td>
-            </tr>
-            <tr class="hover:bg-gray-50">
-                <td class="px-4 py-2 border-b whitespace-nowrap">5</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">기획재정부 세금 정책</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">세정관리관</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">2023-10-05</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">세금, 정책</td>
-            </tr>
-            <tr class="hover:bg-gray-50">
-                <td class="px-4 py-2 border-b whitespace-nowrap">6</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">민생 규제 혁신 방안</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">규제개혁법무담당관</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">2023-10-06</td>
-                <td class="px-4 py-2 border-b whitespace-nowrap">민생, 규제, 혁신</td>
+            <tr th:each="doc, iterStat : ${documents}" class="hover:bg-gray-50">
+                <td class="px-4 py-2 border-b whitespace-nowrap" th:text="${doc.id}"></td>
+                <td class="px-4 py-2 border-b whitespace-nowrap" th:text="${doc.title}"></td>
+                <td class="px-4 py-2 border-b whitespace-nowrap" th:text="${doc.department_name}"></td>
+                <td class="px-4 py-2 border-b whitespace-nowrap" th:text="${doc.write_at}"></td>
+                <td class="px-4 py-2 border-b whitespace-nowrap" th:text="${doc.category}"></td>
+                <td class="px-4 py-2 border-b whitespace-nowrap">
+                    <a th:if="${doc.file_url != null}"
+                       th:href="@{${doc.file_url}}"
+                       download
+                       class="inline-block hover:opacity-80 transition"
+                       title="파일 다운로드">
+                        <!-- 사용자 지정 SVG 아이콘 -->
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="24" height="24" viewBox="0 0 50 50">
+                            <polygon fill="#66e1ff" points="13.017,2.989 13,35.392 34.983,48.121 36.983,46.966 37,22.691 30,10.566 15,1.906"></polygon>
+                            <polygon fill="#479db3" points="37,22.691 36.983,46.966 34.983,48.121 35,23.845"></polygon>
+                            <polygon fill="#57bfd9" points="13.017,2.989 15,1.906 30,10.566 28,11.721"></polygon>
+                            <rect width="2.309" height="14" x="31.345" y="10.206" fill="#4da9bf" transform="rotate(-30 32.499 17.207)"></rect>
+                            <polygon fill="#5ccae6" points="28,11.721 28,19.804 35,23.845"></polygon>
+                        </svg>
+                    </a>
+                </td>
+
             </tr>
             </tbody>
         </table>
     </div>
-
-    <!-- 페이지네이션 -->
-    <div class="flex justify-center mt-6">
-        <nav class="inline-flex rounded-md shadow-sm" aria-label="Pagination">
-            <a href="#"
-               class="px-3 py-2 border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50">이전</a>
-            <a href="#"
-               class="px-3 py-2 border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50">1</a>
-            <a href="#"
-               class="px-3 py-2 border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50">2</a>
-            <a href="#"
-               class="px-3 py-2 border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50">3</a>
-            <a href="#"
-               class="px-3 py-2 border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50">다음</a>
-        </nav>
-    </div>
 </main>
+
 <script src="/js/header.js"></script>
 </body>
 </html>
