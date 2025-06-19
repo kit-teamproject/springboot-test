@@ -8,10 +8,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/assets/**")
-                //로컬
-//                .addResourceLocations("file:C:/Users/USER/Desktop/assets/");
+        //로컬
+        //.addResourceLocations("file:C:/Users/USER/Desktop/assets/");
+
+
         //서버
+        registry.addResourceHandler("/assets/**")
                 .addResourceLocations("file:/app/uploads/assets/");
+
+
+        registry.addResourceHandler("/files/**")
+                .addResourceLocations("file:/app/uploads/files/");
     }
 }
