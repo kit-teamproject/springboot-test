@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>직원 등록 - 지식관리시스템</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="/css/employeeRegister.css">
     <link rel="icon" href="/assets/main.ico">
     <th:block th:insert="~{components/setup :: setup}"></th:block>
@@ -30,7 +30,8 @@
         <div class="form-group">
             <label for="phone">전화번호</label>
             <input type="text" id="phone" th:field="*{phone}" placeholder="예: 010-1234-5678"
-                   pattern="^010-\d{4}-\d{4}$" title="전화번호 형식은 010-1234-5678입니다.">
+                   pattern="^010-\d{4}-\d{4}$" title="전화번호 형식은 010-1234-5678입니다."
+                   required>
         </div>
 
         <div class="form-group">
@@ -56,9 +57,12 @@
         <div class="form-group">
             <label>SMS 수신여부</label>
             <div class="radio-group">
-                <label><input type="radio" th:field="*{sms_receive}" value="true"> 수신</label>
+                <label><input id="sms_id" type="radio" th:field="*{sms_receive}" value="true"> 수신</label>
                 <label><input type="radio" th:field="*{sms_receive}" value="false"> 수신안함</label>
             </div>
+            <script>
+                document.getElementById("sms_id").checked = true;
+            </script>
         </div>
 
         <div class="submit-area">
