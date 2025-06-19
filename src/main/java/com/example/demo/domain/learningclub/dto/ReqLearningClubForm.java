@@ -11,4 +11,8 @@ public class ReqLearningClubForm {
     private String name;
     private String description;
     private MultipartFile image;
+
+    //사용자 데이터 받기
+    private Long emp_id;
+    private String emp_userid;
 }

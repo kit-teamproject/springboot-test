@@ -68,9 +68,10 @@ public class LearningClubController {
      */
     @PostMapping("/add")
     public String addLearningClub(@ModelAttribute ReqLearningClubForm form) {
-        // 생성자 ID는 임시로 고정
-        String creatorId = "learning_admin";
+        // 생성자 ID는 임시로 고정 -> 세션스토리지에서 get
+        String creatorId = form.getEmp_userid();
 
+        System.out.println(form.getEmp_userid());
         // 서비스 호출하여 동아리 등록
         learningClubService.createLearningClub(form, creatorId);
 
