@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko">
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>문서등록</title>
     <link rel="icon" href="/assets/main.ico">
     <th:block th:insert="~{components/setup :: setup}"></th:block>
@@ -12,96 +11,98 @@
 <!-- 헤더 -->
 <header th:insert="~{components/header :: header}"></header>
 
-    <!--내용-->
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- 제목 -->
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">규정 및 지침 등록</h1>
+<!-- 내용 -->
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">규정 및 지침 등록</h1>
+    </div>
+
+    <form th:action="@{/document/create}" th:object="${form}" method="post" enctype="multipart/form-data"
+          class="bg-white rounded-xl shadow-sm p-6 space-y-6">
+        <!-- 문서 제목 -->
+        <div>
+            <label for="title" class="block text-sm font-medium text-gray-700">문서 제목*</label>
+            <input type="text" id="title" th:field="*{title}"
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                   placeholder="문서 제목을 입력하세요"/>
         </div>
-        <form class="bg-white rounded-xl shadow-sm p-6 space-y-6"> <!-- 문서 제목 입력 -->
-            <div>
-                <label for="title" class="block text-sm font-medium text-gray-700">문서 제목*</label>
-                <input type="text" id="title" name="title"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="문서 제목을 입력하세요" />
-            </div>
-            <!-- 문서 설명 입력 -->
-            <div>
-                <label for="description" class="block text-sm font-medium text-gray-700">문서 설명</label>
-                <textarea id="description" name="description" rows="5"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="문서 설명을 입력하세요"></textarea>
-            </div>
 
-            <!-- 팝업 열기 스크립트 -->
-            <script> function openDocSearchPopup() {
-                    const popup = window.open(
-                        'search-doc-popup.html', 'popupWindow', 'width=600,height=500,scrollbars=yes');
-                } // 팝업에서 선택된 문서 제목을 받아오는 함수 function setPreviousDoc(title) { document.getElementById('previous-doc-title').value = title; } </script>
+        <!-- 문서 설명 -->
+        <div>
+            <label for="description" class="block text-sm font-medium text-gray-700">문서 설명</label>
+            <textarea id="description" th:field="*{description}" rows="5"
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="문서 설명을 입력하세요"></textarea>
+        </div>
 
-            <!-- 첨부파일 -->
-            <div class="mt-4">
-                <label for="attachment" class="block text-sm font-medium text-gray-700">첨부파일*</label>
-                <input type="file" id="attachment" name="attachment" class="mt-1 block w-full text-sm text-gray-700" />
+        <!-- 첨부파일 -->
+        <div class="mt-4">
+            <label for="attachment" class="block text-sm font-medium text-gray-700">첨부파일*</label>
+            <input type="file" id="attachment" th:field="*{attachment}"
+                   class="mt-1 block w-full text-sm text-gray-700"/>
+        </div>
+
+        <!-- 카테고리 -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">카테고리</label>
+            <div id="category-container" class="space-y-2 w-full">
+                <!-- 자바스크립트로 동적으로 input 생성 -->
             </div>
-
-            <!-- 카테고리 입력 -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">카테고리</label>
-                <div id="category-container" class="space-y-2 w-[15%]">
-                    <!-- 여기에 카테고리 입력 항목이 동적으로 추가됨 -->
-                </div>
-                <button type="button" id="add-category-btn"
+            <button type="button" id="add-category-btn"
                     class="mt-2 px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition">
-                    + 카테고리 추가
-                </button>
-            </div>
+                + 카테고리 추가
+            </button>
+        </div>
+        <!--        사용자 데이터-->
+        <input type="hidden" id="emp_id" th:field="*{emp_id}">
+        <input type="hidden" id="emp_userid" th:field="*{emp_userid}">
 
+        <script>
+            document.getElementById("emp_id").value = sessionStorage.getItem("id")
+            document.getElementById("emp_userid").value = sessionStorage.getItem("userid")
+        </script>
+        <!-- 저장 버튼 -->
+        <div class="pt-4">
+            <button type="submit"
+                    class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                저장
+            </button>
+        </div>
+    </form>
+</main>
 
+<script>
+    const categoryContainer = document.getElementById("category-container");
+    const addCategoryBtn = document.getElementById("add-category-btn");
 
-            <!-- 저장 버튼 -->
-            <div class="pt-4">
-                <button type="submit"
-                    class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">저장</button>
-            </div>
+    function createCategoryInput() {
+        const wrapper = document.createElement("div");
+        wrapper.className = "flex items-center space-x-2";
 
-            <script>
-                const categoryContainer = document.getElementById("category-container");
-                const addCategoryBtn = document.getElementById("add-category-btn");
+        const input = document.createElement("input");
+        input.type = "text";
+        input.name = "categories"; // th:field로는 안됨 -> name 사용 (List로 매핑됨)
+        input.placeholder = "카테고리를 입력하세요";
+        input.className = "flex-1 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500";
 
-                function createCategoryInput() {
-                    const wrapper = document.createElement("div");
-                    wrapper.className = "flex items-center space-x-2";
+        const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.textContent = "–";
+        removeBtn.className = "px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition";
+        removeBtn.addEventListener("click", () => {
+            categoryContainer.removeChild(wrapper);
+        });
 
-                    const input = document.createElement("input");
-                    input.type = "text";
-                    input.name = "categories[]";
-                    input.placeholder = "카테고리를 입력하세요";
-                    input.className = "flex-1 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500";
+        wrapper.appendChild(input);
+        wrapper.appendChild(removeBtn);
+        return wrapper;
+    }
 
-                    const removeBtn = document.createElement("button");
-                    removeBtn.type = "button";
-                    removeBtn.textContent = "–";
-                    removeBtn.className = "px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition";
-                    removeBtn.addEventListener("click", () => {
-                        categoryContainer.removeChild(wrapper);
-                    });
-
-                    wrapper.appendChild(input);
-                    wrapper.appendChild(removeBtn);
-                    return wrapper;
-                }
-
-                addCategoryBtn.addEventListener("click", () => {
-                    const newCategory = createCategoryInput();
-                    categoryContainer.appendChild(newCategory);
-                });
-            </script>
-
-
-
-        </form>
-    </main>
+    addCategoryBtn.addEventListener("click", () => {
+        const newCategory = createCategoryInput();
+        categoryContainer.appendChild(newCategory);
+    });
+</script>
 
 <script src="/js/header.js"></script>
 </body>
