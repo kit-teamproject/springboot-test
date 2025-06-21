@@ -18,7 +18,7 @@
     </div>
 
     <form th:action="@{/document/create}" th:object="${form}" method="post" enctype="multipart/form-data"
-          class="bg-white rounded-xl shadow-sm p-6 space-y-6">
+          class="bg-white rounded-xl shadow-sm p-6 space-y-6" onsubmit="return validateForm()">
         <!-- 문서 제목 -->
         <div>
             <label for="title" class="block text-sm font-medium text-gray-700">문서 제목*</label>
@@ -53,14 +53,16 @@
                 + 카테고리 추가
             </button>
         </div>
-        <!--        사용자 데이터-->
+
+        <!-- 사용자 데이터 -->
         <input type="hidden" id="emp_id" th:field="*{emp_id}">
         <input type="hidden" id="emp_userid" th:field="*{emp_userid}">
 
         <script>
-            document.getElementById("emp_id").value = sessionStorage.getItem("id")
-            document.getElementById("emp_userid").value = sessionStorage.getItem("userid")
+            document.getElementById("emp_id").value = sessionStorage.getItem("id");
+            document.getElementById("emp_userid").value = sessionStorage.getItem("userid");
         </script>
+
         <!-- 저장 버튼 -->
         <div class="pt-4">
             <button type="submit"
@@ -71,6 +73,7 @@
     </form>
 </main>
 
+<!-- 유효성 검사 및 카테고리 추가 스크립트 -->
 <script>
     const categoryContainer = document.getElementById("category-container");
     const addCategoryBtn = document.getElementById("add-category-btn");
@@ -81,7 +84,7 @@
 
         const input = document.createElement("input");
         input.type = "text";
-        input.name = "categories"; // th:field로는 안됨 -> name 사용 (List로 매핑됨)
+        input.name = "categories";
         input.placeholder = "카테고리를 입력하세요";
         input.className = "flex-1 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500";
 
@@ -102,6 +105,36 @@
         const newCategory = createCategoryInput();
         categoryContainer.appendChild(newCategory);
     });
+
+    function validateForm() {
+        const title = document.getElementById("title").value.trim();
+        const file = document.getElementById("attachment").value;
+        const categories = document.getElementsByName("categories");
+
+        if (!title) {
+            alert("문서 제목을 입력하세요.");
+            return false;
+        }
+
+        if (!file) {
+            alert("첨부파일을 선택하세요.");
+            return false;
+        }
+
+        let hasValidCategory = false;
+        categories.forEach(input => {
+            if (input.value.trim() !== "") {
+                hasValidCategory = true;
+            }
+        });
+
+        if (!hasValidCategory) {
+            alert("최소 하나의 카테고리를 입력하세요.");
+            return false;
+        }
+
+        return true;
+    }
 </script>
 
 <script src="/js/header.js"></script>
