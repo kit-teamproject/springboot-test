@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class  LearningClubService {
+public class LearningClubService {
     private final LearningClubRepository learningClubRepository;
     private final EmployeeRepository employeeRepository; // 생성자 정보 가져올 때 사용
 
@@ -78,6 +78,13 @@ public class  LearningClubService {
                 imagePath = "/assets/" + newFileName;
             } else {
                 imagePath = "/assets/image.webp";
+            }
+
+            String clubName = form.getName();
+            Boolean check = learningClubRepository.existsByClubName(clubName);
+            System.out.println(check);
+            if (check) {
+                return;
             }
 
             EmployeeEntity creator = employeeRepository.findByUserid(creatorId)
