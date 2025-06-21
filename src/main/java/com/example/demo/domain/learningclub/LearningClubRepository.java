@@ -28,4 +28,6 @@ public interface LearningClubRepository extends JpaRepository<LearningClubEntity
      * @return 검색된 학습 동아리 목록 (Optional로 감쌈)
      */
     Optional<List<LearningClubEntity>> findByClubNameContainingIgnoreCase(String clubName);
+
+    Boolean existsByClubName(String clubName);
 }
