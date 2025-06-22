@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,26 +50,21 @@ public class DepartmentWorkService {
         workRepository.save(work);
     }
 
-    public List<ResDepartmentWorkDto> searchWork(String workName, String managerName) {
-        List<DepartmentWorkEntity> works;
+    public List<ResDepartmentWorkDto> searchWork(String workName, String managerName,
+                                             LocalDate startDate, LocalDate endDate) {
 
-        boolean hasWorkName = workName != null && !workName.isBlank();
-        boolean hasManager = managerName != null && !managerName.isBlank();
-
-        if (hasWorkName && hasManager) {
-            works = workRepository.findByWorkNameContainingAndWorkManagerContaining(workName, managerName);
-        } else if (hasWorkName) {
-            works = workRepository.findByWorkNameContaining(workName);
-        } else if (hasManager) {
-            works = workRepository.findByWorkManagerContaining(managerName);
-        } else {
-            works = workRepository.findAll();
-        }
+        List<DepartmentWorkEntity> works = workRepository.searchWorks(
+                (workName == null || workName.isBlank()) ? null : workName,
+                (managerName == null || managerName.isBlank()) ? null : managerName,
+                startDate,
+                endDate
+        );
 
         return works.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
+
 
     private ResDepartmentWorkDto toDto(DepartmentWorkEntity e) {
         return new ResDepartmentWorkDto(

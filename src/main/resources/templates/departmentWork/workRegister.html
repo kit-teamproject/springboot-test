@@ -5,58 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>추진업무 등록</title>
     <link rel="icon" href="/assets/main.ico">
-    <th:block th:insert="~{components/setup :: setup}"></th:block>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind 직접 삽입 -->
+    <style>
+        @import url('//fonts.googleapis.com/earlyaccess/notosanskr.css');
+        * { font-family: "Noto Sans KR"; font-weight: bold; }
+    </style>
 </head>
 <body>
-<header th:insert="~{components/header :: header}"></header>
-<main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">추진업무 등록</h1>
 
-    <form th:action="@{/departmentWork/add}" method="post" enctype="multipart/form-data"
+<header th:insert="~{components/header :: header}"></header>
+
+<main class="max-w-2xl mx-auto px-4 py-10">
+    <h1 class="text-2xl font-bold text-gray-800 mb-8">추진업무 등록</h1>
+
+    <form th:action="@{/departmentWork/add}" th:object="${form}" method="post" enctype="multipart/form-data"
           class="bg-white shadow rounded-xl p-6 space-y-6">
 
         <!-- 업무명 -->
         <div>
             <label class="block text-sm font-medium text-gray-700">업무명</label>
-            <input type="text" name="workName" class="mt-1 w-full border rounded-md px-3 py-2 text-sm"
-                   placeholder="예: 2025 상반기 문서 개선 프로젝트"/>
+            <input type="text" th:field="*{workName}"
+                   class="mt-1 w-full border rounded-md px-3 py-2 text-sm"
+                   th:classappend="${#fields.hasErrors('workName')} ? 'border-red-500' : ''"/>
+            <p th:if="${#fields.hasErrors('workName')}" th:errors="*{workName}" class="text-sm text-red-500 mt-1"></p>
         </div>
 
-        <!-- 부서 선택 -->
+        <!-- 부서 -->
         <div>
             <label class="block text-sm font-medium text-gray-700">부서</label>
-            <select name="departmentId" class="mt-1 w-full border rounded-md px-3 py-2 text-sm">
+            <select th:field="*{departmentId}" class="w-full border rounded-md px-3 py-2 text-sm">
                 <option value="">부서 선택</option>
-                <option th:each="dept : ${departments}" 
-                        th:value="${dept.id}" 
-                        th:text="${dept.name}"></option>
+                <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}"></option>
             </select>
+            <p th:if="${#fields.hasErrors('departmentId')}" th:errors="*{departmentId}" class="text-sm text-red-500 mt-1"></p>
         </div>
 
-        <!-- 시작일/종료일 -->
+        <!-- 시작일 / 종료일 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">시작일</label>
-                <input type="date" name="startDate" class="mt-1 w-full border rounded-md px-3 py-2 text-sm"/>
+                <input type="date" th:field="*{startDate}" class="w-full border rounded-md px-3 py-2 text-sm"/>
+                <p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="text-sm text-red-500 mt-1"></p>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">종료일</label>
-                <input type="date" name="endDate" class="mt-1 w-full border rounded-md px-3 py-2 text-sm"/>
+                <input type="date" th:field="*{endDate}" class="w-full border rounded-md px-3 py-2 text-sm"/>
+                <p th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="text-sm text-red-500 mt-1"></p>
             </div>
         </div>
 
         <!-- 공개 여부 -->
         <div>
             <label class="block text-sm font-medium text-gray-700">공개 여부</label>
-            <div class="flex items-center space-x-4 mt-1">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="isPublic" value="true" class="form-radio text-blue-600" checked id="publicTrue">
-                    <span class="ml-2 text-sm text-gray-700">공개</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="isPublic" value="false" class="form-radio text-blue-600" id="publicFalse">
-                    <span class="ml-2 text-sm text-gray-700">비공개</span>
-                </label>
+            <div class="flex space-x-4 mt-1">
+                <label><input type="radio" th:field="*{isPublic}" value="true" id="publicTrue" class="mr-1"/>공개</label>
+                <label><input type="radio" th:field="*{isPublic}" value="false" id="publicFalse" class="mr-1"/>비공개</label>
             </div>
         </div>
 
@@ -65,85 +68,77 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">공개 시작일</label>
-                    <input type="date" name="openStartDate"
-                           class="mt-1 w-full border rounded-md px-3 py-2 text-sm"/>
+                    <input type="date" th:field="*{openStartDate}" class="w-full border rounded-md px-3 py-2 text-sm"/>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">공개 종료일</label>
-                    <input type="date" name="openEndDate"
-                           class="mt-1 w-full border rounded-md px-3 py-2 text-sm"/>
+                    <input type="date" th:field="*{openEndDate}" class="w-full border rounded-md px-3 py-2 text-sm"/>
                 </div>
             </div>
         </div>
 
-        <script>
-            const publicTrue = document.getElementById("publicTrue");
-            const publicFalse = document.getElementById("publicFalse");
-            const publicPeriodSection = document.getElementById("publicPeriodSection");
-
-            function togglePublicSection() {
-                if (publicTrue.checked) {
-                    publicPeriodSection.classList.remove("hidden");
-                } else {
-                    publicPeriodSection.classList.add("hidden");
-                }
-            }
-
-            publicTrue.addEventListener("change", togglePublicSection);
-            publicFalse.addEventListener("change", togglePublicSection);
-
-            // 초기 상태에서도 반영
-            document.addEventListener("DOMContentLoaded", togglePublicSection);
-        </script>
-
         <!-- 담당자 -->
         <div>
             <label class="block text-sm font-medium text-gray-700">추진업무 담당자</label>
-            <select name="workManager" class="mt-1 w-full border rounded-md px-3 py-2 text-sm">
+            <select th:field="*{workManager}" class="w-full border rounded-md px-3 py-2 text-sm">
                 <option value="">담당자를 선택하세요</option>
-                <option th:each="emp : ${employees}"
-                        th:value="${emp.name}"
-                th:text="${emp.name}"></option>
+                <option th:each="e : ${employees}" th:value="${e.name}" th:text="${e.name}"></option>
             </select>
         </div>
 
         <!-- 단위업무 -->
         <div>
             <label class="block text-sm font-medium text-gray-700">단위업무</label>
-            <input type="text" name="linkedUnitWork"
-                   class="mt-1 w-full border rounded-md px-3 py-2 text-sm"
-                   placeholder="예: 기초문서 수집"/>
+            <input type="text" th:field="*{linkedUnitWork}" class="w-full border rounded-md px-3 py-2 text-sm"/>
         </div>
 
         <!-- 알람 -->
-        <div class="flex items-center space-x-2">
+        <div class="flex items-center">
             <input type="hidden" name="alarmSetting" value="false"/>
-            <input type="checkbox" id="alarmSetting" name="alarmSetting" value="true"
-                class="h-4 w-4 text-blue-600 border-gray-300 rounded"/>
-            <label for="alarmSetting" class="text-sm text-gray-700">알람 설정</label>
+            <input type="checkbox" th:field="*{alarmSetting}" value="true" class="mr-2"/>
+            <label class="text-sm text-gray-700">알람 설정</label>
         </div>
 
         <!-- 첨부파일 -->
         <div>
             <label class="block text-sm font-medium text-gray-700">관련 자료 업로드</label>
-            <input type="file" name="attachment" class="mt-1 block w-full text-sm text-gray-600"/>
+            <input type="file" th:field="*{attachment}" class="w-full text-sm"/>
         </div>
 
         <!-- 범주 -->
         <div>
             <label class="block text-sm font-medium text-gray-700">업무 범주</label>
-            <input type="text" name="category" class="mt-1 w-full border rounded-md px-3 py-2 text-sm"/>
+            <input type="text" th:field="*{category}" class="w-full border rounded-md px-3 py-2 text-sm"/>
         </div>
 
-        <!-- 제출 -->
+        <!-- 제출 버튼 -->
         <div class="pt-4">
             <button type="submit"
-                    class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition">
+                    class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
                 업무 등록
             </button>
         </div>
     </form>
 </main>
-<script src="/js/header.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const publicTrue = document.getElementById("publicTrue");
+        const publicFalse = document.getElementById("publicFalse");
+        const publicPeriodSection = document.getElementById("publicPeriodSection");
+
+        function togglePublicSection() {
+            if (publicTrue?.checked) {
+                publicPeriodSection.classList.remove("hidden");
+            } else {
+                publicPeriodSection.classList.add("hidden");
+            }
+        }
+
+        publicTrue?.addEventListener("change", togglePublicSection);
+        publicFalse?.addEventListener("change", togglePublicSection);
+        togglePublicSection();
+    });
+</script>
 </body>
 </html>
