@@ -20,6 +20,11 @@ public class EmployeeService {
 
     @Transactional
     public void save(ReqEmployeeForm reqEmployeeForm) {
+        EmployeeEntity result = employeeRepository.findByUserid(reqEmployeeForm.getUserid())
+                .orElse(null);
+        if (result != null) {
+            return;
+        }
         //비밀번호 암호화
         String passwordEncoded = BCrypt.hashpw(reqEmployeeForm.getPassword(), BCrypt.gensalt());
 
